@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monster Slayer</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+    <section class="row">
+        <div class="small-6 columns">
+            <h1 class="text-center">{{ name }}</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" :style="[hpBar, {width: playerHP + '%'}]">
+                    {{ playerHP }}
+                </div>
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <h1 class="text-center">ENEMY</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" :style="[hpBar, {width: enemyHP + '%'}]">
+                    {{ enemyHP }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section v-if="!gameIsStarted" class="row controls" >
+        <div class="small-12 columns">
+            <button id="start-game" @click="startGame">START NEW GAME</button>
+        </div>
+    </section>
+    <section v-else class="row controls">
+        <div class="small-12 columns">
+            <button id="attack" @click="attackAct">ATTACK</button>
+            <button id="special-attack" @click="specialAttackAct">SPECIAL ATTACK</button>
+            <button id="heal" @click="healAct">HEAL</button>
+            <button id="give-up" @click="resetGame">GIVE UP</button>
+        </div>
+    </section>
+    <section v-if="isFirstRound" class="row log">
+        <div class="small-12 columns">
+            <ul>
+                <template v-for="action in log">
+                    <li :class="actionClass(action)">
+                        {{ action.type === 'p' ? name : 'enemy' }}
+                        {{ action.damage ? 'hits' : 'heals' }}
+                        by
+                        {{ action.damage ? action.damage : action.heal }}
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
